@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+  <CodeSnippet Format="1.0.0">
+    <Header>
+      <Title>glfw scafolding</Title>
+      <Shortcut>glfwscaf</Shortcut>
+    </Header>
+    <Snippet>
+      <Code Language="CPP">
+        #include &lt;GLFW/glfw3.h&gt;
+
+        constexpr unsigned int ScreenWidth = 800;
+        constexpr unsigned int ScreenHeight = 600;
+
+        // glfw: whenever the window size changed (by OS or user resize) this callback function executes
+        // ---------------------------------------------------------------------------------------------
+        void framebuffer_size_callback(GLFWwindow* window, int width, int height)
+        {
+          // make sure the viewport matches the new window dimensions; note that width and 
+          // height will be significantly larger than specified on retina displays.
+          glViewport(0, 0, width, height);
+        }
+
+        int main()
+        {
+          // glfw: initialize and configure
+          // ------------------------------
+          glfwInit();
+          glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
+          glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 6);
+          glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+
+          // glfw window creation
+          // --------------------
+          GLFWwindow* window = glfwCreateWindow(ScreenWidth, ScreenHeight, "OpenGL Window", NULL, NULL);
+          if (window == NULL)
+          {
+            glfwTerminate();
+            return -1;
+          }
+          glfwMakeContextCurrent(window);
+          glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
+
+          // glad: load all OpenGL function pointers
+          // ---------------------------------------
+          if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
+          {
+            return -1;
+          }
+
+          // TODO :: Initialization
+
+          while (!glfwWindowShouldClose(window))
+          {
+            glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
+            glClear(GL_COLOR_BUFFER_BIT);
+
+            // TODO: Loop event
+
+            glfwSwapBuffers(window);
+            glfwPollEvents();
+          }
+
+          glfwTerminate();
+            return 0;
+        }
+      </Code>
+    </Snippet>
+  </CodeSnippet>
