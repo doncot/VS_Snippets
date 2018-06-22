@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<CodeSnippet Format="1.0.0">
+  <Header>
+    <Title>opengl initialize code scaffolding</Title>
+    <Shortcut>glshaderinit</Shortcut>
+  </Header>
+  <Snippet>
+    <Code Language="CPP">
+	// Shader Source
+	const char *vertexShaderSource = R"(
+#version 460 core
+		
+layout (location = 0) in vec3 pos;
+		
+void main()
+{
+	gl_Position = vec4(pos.x, pos.y, pos.z, 1.0);
+}
+	)";
+	const char *fragmentShaderSource = R"(
+#version 460 core
+
+out vec4 FragColor;
+
+void main()
+{
+	// Orange
+	FragColor = vec4(1.0f, 0.5f, 0.2f, 1.0f);
+}
+	)";
+	// build and compile our shader program
+	// ------------------------------------
+	// vertex shader
+	int vertexShader = glCreateShader(GL_VERTEX_SHADER);
+	glShaderSource(vertexShader, 1, &amp;vertexShaderSource, NULL);
+	glCompileShader(vertexShader);
+	// check for shader compile errors
+	int success;
+	constexpr int InfoLength = 1024;
+	char infoLog[InfoLength];
+	glGetShaderiv(vertexShader, GL_COMPILE_STATUS, &amp;success);
+	if (!success)
+	{
+		glGetShaderInfoLog(vertexShader, InfoLength, NULL, infoLog);
+	}
+
+	// fragment shader
+	int fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
+	glShaderSource(fragmentShader, 1, &amp;fragmentShaderSource, NULL);
+	glCompileShader(fragmentShader);
+	// check for shader compile errors
+	glGetShaderiv(fragmentShader, GL_COMPILE_STATUS, &amp;success);
+	if (!success)
+	{
+		glGetShaderInfoLog(fragmentShader, InfoLength, NULL, infoLog);
+	}
+
+	// link shaders
+	int shaderProgram = glCreateProgram();
+	glAttachShader(shaderProgram, vertexShader);
+	glAttachShader(shaderProgram, fragmentShader);
+	glLinkProgram(shaderProgram);
+	// check for linking errors
+	glGetProgramiv(shaderProgram, GL_LINK_STATUS, &amp;success);
+	if (!success) {
+		glGetProgramInfoLog(shaderProgram, InfoLength, NULL, infoLog);
+	}
+	glDeleteShader(vertexShader);
+	glDeleteShader(fragmentShader);
+    </Code>
+  </Snippet>
+</CodeSnippet>
